@@ -1,16 +1,24 @@
-export const App = () => {
+import Box from '@mui/material/Box';
+
+import Vocabulary from '../components/Vocabulary/Vocabulary';
+
+const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
+    <Box
+      sx={{
+        // width: 300,
+        // height: 500,
+        padding: 8,
+        backgroundColor: 'lightblue',
+        // '&:hover': {
+        //   backgroundColor: 'mint',
+        //   opacity: [0.9, 0.8, 0.7],
+        // },
       }}
     >
-      React homework template!!!
-    </div>
+      <Vocabulary />
+    </Box>
   );
 };
+
+export default App;
