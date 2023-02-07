@@ -1,62 +1,72 @@
-import { Component } from 'react';
-import {  TextField,  Button } from '@mui/material';
+import { Button } from '@mui/material';
+import { useReducer } from 'react';
+import VocabularyFormItem from './VocabularyFormItem';
 
-const initialState = { engWord: '', ukrWord: '' };
+const initialState = [{id: Date.now(), engWord: '', ukrWord: '' }];
 
-class VocabularyForm extends Component {
-  state = {
-   ...initialState
-  };
+const reducer = (state, action) => {
+  switch (action.type) {
+    // need to change into array of objects....
+    case 'engWord':
+      return {...state, [action.type]: action.payload};
 
-  handleChangeInput = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.onFormSubmit(this.state);
-        this.setState({ ...initialState });
-  };
-
-  render() {
-    return (
-      <form style={{ display: 'flex' }} onSubmit={this.handleSubmit}>
-        <TextField
-          id="outlined-basic"
-          label="English word"
-          variant="outlined"
-          name="engWord"
-          onChange={this.handleChangeInput}
-          value={this.state.engWord}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Ukrainian word"
-          variant="outlined"
-          name="ukrWord"
-          onChange={this.handleChangeInput}
-          value={this.state.ukrWord}
-        />
-        <Button type="submit" variant="contained">
-          Add
-        </Button>
-      </form>
-    );
+    case 'ukrWord':
+      return { ...state, [action.type]: action.payload };
+    
+    case 'reset':
+      return initialState;
+    
+    case 'addMore':
+      return [...state, action.payload]
+    
+    default:
+      return state;
   }
 }
 
-export default VocabularyForm;
+const VocabularyForm = ({onFormSubmit}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-/* <Fab color="primary" aria-label="add">
-  <AddIcon />
-</Fab>
-<Fab color="secondary" aria-label="edit">
-  <EditIcon />
-</Fab>
-<Fab variant="extended">
-  <NavigationIcon sx={{ mr: 1 }} />
-  Navigate
-</Fab>
-<Fab disabled aria-label="like">
-  <FavoriteIcon />
-</Fab> */
+  // need to fix-----
+  const handleChangeInput = e => {
+    dispatch({ type: e.target.name, payload: e.target.value });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    onFormSubmit(state);
+    dispatch({ type: 'reset' });
+  };
+
+  const handleMoreItem = () => {
+    dispatch({
+      type: 'addMore',
+      payload: { id: Date.now(), engWord: '', ukrWord: '' },
+    });
+  }
+
+  const handleDelete = (id) => {
+//--------------------
+  }
+
+  return (
+    <form style={{ display: 'flex' }} onSubmit={handleSubmit}>
+      {state.map(word => (
+        <VocabularyFormItem
+          key={word.id}
+          onChangeInput={handleChangeInput}
+          word={word}
+          onDelete={handleDelete}
+        />
+      ))}
+      <Button type="submit" variant="contained" onClick={handleMoreItem}>
+        Add more
+      </Button>
+      <Button type="submit" variant="contained">
+        Add all words
+      </Button>
+    </form>
+  );
+};
+
+export default VocabularyForm;
