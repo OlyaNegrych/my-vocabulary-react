@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const VocabularyFormItem = ({ onChangeInput, word, onDelete }) => {
   return (
-    <>
+    <div style={{display: 'block'}}>
       <TextField
         id="outlined-basic"
         label="English word"
@@ -27,7 +27,7 @@ const VocabularyFormItem = ({ onChangeInput, word, onDelete }) => {
       >
         Delete
       </Button>
-    </>
+    </div>
   );
 };
 export default VocabularyFormItem;

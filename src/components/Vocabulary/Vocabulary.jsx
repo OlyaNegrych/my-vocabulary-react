@@ -17,7 +17,8 @@ const Vocabulary = () => {
   const handleAddWord = word => {
     const newWord = { id: Date.now(), ...word };
     setWords(prev => [...prev, newWord]);
-    setIsOpenModal(false);
+    onToggleModal();
+    // setIsOpenModal(false);
   };
 
   const handleFilter = e => {

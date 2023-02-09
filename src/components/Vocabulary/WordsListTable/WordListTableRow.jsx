@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 
-export class WordListTableRow extends Component {
+class WordListTableRow extends Component {
   state = {
     isEdit: false,
     engWord: this.props.word.engWord,
@@ -70,3 +70,5 @@ export class WordListTableRow extends Component {
     );
   }
 }
+
+export default WordListTableRow;
