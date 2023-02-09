@@ -7,13 +7,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import WordListTableRow from './WordListTableRow';
 
-export default function WordList({wordsList, onDelete, onEditWord}) {
+export default function WordListTable({wordsList, onDelete, onEditWord}) {
 
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 50 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell align="center">Learn</TableCell>
               <TableCell align="center">N</TableCell>
               <TableCell align="center">English</TableCell>
               <TableCell align="center">Ukrainian</TableCell>

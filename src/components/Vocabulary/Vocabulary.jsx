@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import VocabularyForm from './VocabularyForm';
 import Filter from 'components/Filter/Filter';
-import WordList from './WordsListTable/WordsList';
+import WordsListTable from './WordsListTable/WordsListTable';
 import {Modal} from '../Modal/Modal';
 import { useState } from 'react';
 
@@ -15,10 +15,12 @@ const Vocabulary = () => {
   };
 
   const handleAddWord = word => {
-    const newWord = { id: Date.now(), ...word };
-    setWords(prev => [...prev, newWord]);
+    // const newWord = { id: Date.now(), ...word };
+    // setWords(prev => [...prev, newWord]);
+
+    setWords(prev => [...prev, ...word]);
+
     onToggleModal();
-    // setIsOpenModal(false);
   };
 
   const handleFilter = e => {
@@ -70,7 +72,7 @@ const Vocabulary = () => {
 
       <Filter value={filter} onFilterChange={handleFilter} />
 
-      <WordList
+      <WordsListTable
         wordsList={handleFilterWords()}
         onDelete={handleDelete}
         onEditWord={handleEditWords}

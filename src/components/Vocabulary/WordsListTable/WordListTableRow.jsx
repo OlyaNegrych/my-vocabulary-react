@@ -1,8 +1,7 @@
 import { Component } from 'react';
-import { Button } from '@mui/material';
+import { Button, Checkbox, TextField } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
 
 class WordListTableRow extends Component {
   state = {
@@ -18,6 +17,15 @@ class WordListTableRow extends Component {
     }
   };
 
+  handleChangeLearn = (_, status) => {
+  //   const updateWords = {
+  //     engWord: state.engWord,
+  //     ukrWord: state.ukrWord,
+  //     isLearn: status,
+  //     id: word.id,
+  //   };
+  }
+
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -25,9 +33,13 @@ class WordListTableRow extends Component {
   render() {
     const { word, index, onDelete } = this.props;
     return (
-      <TableRow
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      >
+      <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableCell align="center">
+          <Checkbox
+          // checked={word.isLearn}
+          // onChange={handleChangeLearn}
+          />
+        </TableCell>
         <TableCell align="center">{index + 1}</TableCell>
         {this.state.isEdit ? (
           <>
