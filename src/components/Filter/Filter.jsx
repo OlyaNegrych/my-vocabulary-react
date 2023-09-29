@@ -1,14 +1,14 @@
-import { TextField } from '@mui/material';
+// import { TextField } from '@mui/material';
+import { Input } from 'components/Vocabulary/Vocabulary.styled';
 
 const Filter = ({ value, onFilterChange }) => {
   return (
-    <TextField
-      id="standard-basic"
-      label="Find word"
-      variant="standard"
+
+    <Input
+      placeholder='Find word'
       value={value}
       onChange={onFilterChange}
-      style={{ marginTop: '20px', marginBottom: '30px' }}
+      style={{ marginTop: '20px', backgroundColor: '#c7fbe1', marginBottom: '30px', backgroundColor: 'transparent', borderBottom: '1px solid black', maxWidth: '240px' }}
     />
   );
 };

@@ -1,8 +1,9 @@
-import { Button } from '@mui/material';
-import VocabularyForm from './VocabularyForm';
+// import { Button } from '@mui/material';
+import { Btn } from './Vocabulary.styled';
+import VocabularyForm from './AddWordForm';
 import Filter from 'components/Filter/Filter';
-import WordsListTable from './WordsListTable/WordsListTable';
-import {Modal} from '../Modal/Modal';
+import WordsListTable from '../WordsListTable/WordsListTable';
+import { Modal } from '../Modal/Modal';
 import { useState } from 'react';
 
 const Vocabulary = () => {
@@ -15,11 +16,7 @@ const Vocabulary = () => {
   };
 
   const handleAddWord = word => {
-    // const newWord = { id: Date.now(), ...word };
-    // setWords(prev => [...prev, newWord]);
-
     setWords(prev => [...prev, ...word]);
-
     onToggleModal();
   };
 
@@ -55,14 +52,13 @@ const Vocabulary = () => {
 
   return (
     <>
-      <Button
+      <Btn
         type="button"
-        variant="contained"
         style={{ marginBottom: '20px' }}
         onClick={onToggleModal}
       >
-        Add new words
-      </Button>
+        Add new word
+      </Btn>
 
       {isOpenModal && (
         <Modal onCloseModal={onToggleModal}>

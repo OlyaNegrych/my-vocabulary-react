@@ -1,32 +1,30 @@
 import { TextField, Button } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Input, Btn } from './Vocabulary.styled';
+// import DeleteIcon from '@mui/icons-material/Delete';
+import { BsTrash } from "react-icons/bs";
 
 const VocabularyFormItem = ({ onChangeInput, word, onDelete }) => {
   return (
     <div style={{display: 'block'}}>
-      <TextField
-        id="outlined-basic"
-        label="English word"
-        variant="outlined"
+      <Input
+        placeholder="English word"
         name="engWord"
         onChange={onChangeInput}
         value={word.engWord}
       />
-      <TextField
-        id="outlined-basic"
-        label="Ukrainian word"
-        variant="outlined"
+      <Input
+        placeholder="Ukrainian word"
         name="ukrWord"
         onChange={onChangeInput}
         value={word.ukrWord}
       />
-      <Button
-        variant="outlined"
-        startIcon={<DeleteIcon />}
+      {/* <Btn
+        style={{display: 'flex', alignItems: 'center', backgroundColor: '#f07777', height: 'au'}}
         onClick={() => onDelete(word.id)}
       >
+        <BsTrash style={{marginRight: '10px'}}/>
         Delete
-      </Button>
+      </Btn> */}
     </div>
   );
 };
