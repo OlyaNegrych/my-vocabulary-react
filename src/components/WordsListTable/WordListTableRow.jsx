@@ -8,6 +8,7 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [engWord, setEngWord] = useState(word.engWord);
   const [ukrWord, setUkrWord] = useState(word.ukrWord);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -27,7 +28,12 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
   return (
     <tr>
       <td align="center">
-        <CheckBox />
+        <CheckBox
+          type="checkbox"
+          id={`checkbox-${index + 1}`}
+          checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)}
+        />
       </td>
       <td align="center">{index + 1}</td>
       {isEdit ? (
