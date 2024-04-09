@@ -55,8 +55,8 @@ const AddWordForm = ({ onFormSubmit }) => {
           <Btn type="button" onClick={() => removeInputPair(pair.id)}>Remove</Btn>
         </fieldset>
       ))}
-      <Btn type="button" onClick={addInputPair}>Add word pair</Btn>
-      <Btn type="submit">Submit</Btn>
+      <Btn type="button" onClick={addInputPair}>New word</Btn>
+      <Btn type="submit">Add ALL</Btn>
     </form>
   );
 };
