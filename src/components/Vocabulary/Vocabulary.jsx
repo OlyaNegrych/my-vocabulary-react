@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Notiflix from 'notiflix';
 import { Btn } from './Vocabulary.styled';
 import AddWordForm from './AddWordForm';
@@ -7,18 +8,30 @@ import { Modal } from '../Modal/Modal';
 import { useState } from 'react';
 
 const Vocabulary = () => {
-  const [words, setWords] = useState([]);
+  const initialWords = JSON.parse(localStorage.getItem('words')) || [];
+  const [words, setWords] = useState(initialWords);
+
+
+  // const [words, setWords] = useState([]);
   const [filter, setFilter] = useState('');
   const [isOpenModal, setIsOpenModal] = useState(false);
   // console.log(words)
+
+   useEffect(() => {
+    // Оновлення локального сховища після зміни стану
+    localStorage.setItem('words', JSON.stringify(words));
+  }, [words]);
 
   const onToggleModal = () => {
     setIsOpenModal(prev => !prev);
   };
 
   const handleAddWord = word => {
-    // console.log(word);
-    setWords(prev => [...prev, ...word]);
+    const updatedWords = [...words, ...word];
+    setWords(updatedWords);
+
+    // setWords(prev => [...prev, ...word]);
+
     onToggleModal();
     Notiflix.Notify.success('Word added successfully!');
   };

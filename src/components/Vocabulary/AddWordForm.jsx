@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Btn, Input } from './Vocabulary.styled';
+import { Btn, BtnRemove, Input } from './Vocabulary.styled';
 
 
 const AddWordForm = ({ onFormSubmit }) => {
@@ -36,6 +36,7 @@ const AddWordForm = ({ onFormSubmit }) => {
       {wordPairs.map((pair, index) => (
         <fieldset key={pair.id} style={{ marginBottom: '10px' }}>
           <legend>Word {index + 1}</legend>
+          <BtnRemove type="button" onClick={() => removeInputPair(pair.id)}>X</BtnRemove>
           <Input
             placeholder="English word"
             {...register(`wordPairs[${pair.id}].engWord`, { required: true })}
@@ -52,10 +53,10 @@ const AddWordForm = ({ onFormSubmit }) => {
             style={{ marginBottom: '5px' }}
           />
           {/* {errors?.wordPairs?.[pair.id]?.ukrWord && <span>Enter Ukrainian word, please...</span>} */}
-          <Btn type="button" onClick={() => removeInputPair(pair.id)}>Remove</Btn>
+          
         </fieldset>
       ))}
-      <Btn type="button" onClick={addInputPair}>New word</Btn>
+      <Btn type="button" onClick={addInputPair} style={{marginRight: '6px'}}>New word</Btn>
       <Btn type="submit">Add ALL</Btn>
     </form>
   );

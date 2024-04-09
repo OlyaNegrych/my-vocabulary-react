@@ -21,6 +21,27 @@ export const Btn = styled.button`
   }
 `;
 
+export const BtnRemove = styled.button`
+margin-left: auto;
+margin-bottom: 6px;
+margin-top: -10px;
+  background-color: #eddfdf;
+  color: #fff;
+  width: 18px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: 1px 0px 1px 0px rgba(0, 0, 0, 0.2); */
+  cursor: pointer;
+
+:hover {
+  background-color: #d77e7e;
+}
+`;
+
 export const Field = styled.label`
   position: relative;
   display: block;
