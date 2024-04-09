@@ -1,6 +1,5 @@
 import { TextField, Button } from '@mui/material';
 import { Input, Btn } from './Vocabulary.styled';
-// import DeleteIcon from '@mui/icons-material/Delete';
 import { BsTrash } from "react-icons/bs";
 
 const VocabularyFormItem = ({ onChangeInput, word, onDelete }) => {

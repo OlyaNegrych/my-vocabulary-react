@@ -1,84 +1,65 @@
-// import { Button } from '@mui/material';
-// import { useForm } from "react-hook-form";
-// import { BsTrash } from "react-icons/bs";
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Btn, Input } from './Vocabulary.styled';
 
+
 const AddWordForm = ({ onFormSubmit }) => {
-  const [state, setState] = useState([
-    { id: Date.now(), engWord: '', ukrWord: '' },
-  ]);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [wordPairs, setWordPairs] = useState([{ id: Date.now(), engWord: '', ukrWord: '' }]);
 
-  const handleChangeInput = e => {
-    state.map(word => {
-      return setState([{ ...word, [e.target.name]: e.target.value }]);
+  const onSubmit = () => {
+    onFormSubmit(wordPairs);
+    reset();
+  };
+
+  const addInputPair = () => {
+    setWordPairs([...wordPairs, { id: Date.now(), engWord: '', ukrWord: '' }]);
+  };
+
+  const removeInputPair = (id) => {
+    const newWordPairs = wordPairs.filter(pair => pair.id !== id);
+    setWordPairs(newWordPairs);
+  };
+
+  const handleInputChange = (id, name, value) => {
+    const newWordPairs = wordPairs.map(pair => {
+      if (pair.id === id) {
+        return { ...pair, [name]: value };
+      }
+      return pair;
     });
+    setWordPairs(newWordPairs);
   };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    onFormSubmit(state);
-    setState([{ id: Date.now(), engWord: '', ukrWord: '' }]);
-    localStorage.setItem("myWords", JSON.stringify(state));
-
-//  const myWords = localStorage.getItem("myWords");
-// if (storedData) {
-//   const words = JSON.parse(myWords);
-//   console.log(words);
-// } else {
-//   console.log("Дані не знайдені в localStorage");
-// }
-  };
-
-  // const handleMoreItem = () => {
-  //   // потрібно, щоб додавало у модалку ще 2 інпути для англ і укр слова.......
-  //   // setState([...state, { id: Date.now(), engWord: '', ukrWord: '' }]);
-  // };
-
-  // const handleDelete = id => {
-  //   setState(prev => prev.filter(word => word.id !== id));
-  // };
 
   return (
-    <form style={{ display: 'flex' }} onSubmit={handleSubmit}>
-      {/* тут потрібно мапати напевно не стейт, а якийсь масив, куди закидатимуться
-      обєкти слів після їх створення за доп. кнопки Add one more */}
-      
-      {state.map(word => (
-        <div key={word.id} style={{display: 'block'}}>
-      <Input
-        placeholder="English word"
-        name="engWord"
-        onChange={handleChangeInput}
-        value={word.engWord}
-      />
-      <Input
-        placeholder="Ukrainian word"
-        name="ukrWord"
-        onChange={handleChangeInput}
-        value={word.ukrWord}
-      />
-      {/* <Btn
-        style={{display: 'flex', alignItems: 'center', backgroundColor: '#f07777'}}
-        onClick={() => onDelete(word.id)}
-      >
-        <BsTrash style={{marginRight: '10px'}}/>
-        Delete
-      </Btn> */}
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {wordPairs.map((pair, index) => (
+        <fieldset key={pair.id} style={{ marginBottom: '10px' }}>
+          <legend>Word {index + 1}</legend>
+          <Input
+            placeholder="English word"
+            {...register(`wordPairs[${pair.id}].engWord`, { required: true })}
+            value={pair.engWord}
+            onChange={(e) => handleInputChange(pair.id, 'engWord', e.target.value)}
+            style={{ marginBottom: '5px' }}
+          />
+          {/* {errors?.wordPairs?.[pair.id]?.engWord && <span>Enter English word, please...</span>} */}
+          <Input
+            placeholder="Ukrainian word"
+            {...register(`wordPairs[${pair.id}].ukrWord`, { required: true })}
+            value={pair.ukrWord}
+            onChange={(e) => handleInputChange(pair.id, 'ukrWord', e.target.value)}
+            style={{ marginBottom: '5px' }}
+          />
+          {/* {errors?.wordPairs?.[pair.id]?.ukrWord && <span>Enter Ukrainian word, please...</span>} */}
+          <Btn type="button" onClick={() => removeInputPair(pair.id)}>Remove</Btn>
+        </fieldset>
       ))}
-
-      {/* <Btn type="submit" variant="contained" onClick={handleMoreItem}>
-        Add one more
-      </Btn> */}
-      {/* наступна кнопка мала б розпиляти масив обєктів, сформованих за доп
-      попередньої кнопки */}
-      
-      <Btn type="submit" onClick={handleSubmit}>
-        Add word
-      </Btn>
+      <Btn type="button" onClick={addInputPair}>Add word pair</Btn>
+      <Btn type="submit">Submit</Btn>
     </form>
   );
 };
+
 
 export default AddWordForm;

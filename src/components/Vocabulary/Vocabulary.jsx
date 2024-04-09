@@ -1,6 +1,6 @@
-// import { Button } from '@mui/material';
+import Notiflix from 'notiflix';
 import { Btn } from './Vocabulary.styled';
-import VocabularyForm from './AddWordForm';
+import AddWordForm from './AddWordForm';
 import Filter from 'components/Filter/Filter';
 import WordsListTable from '../WordsListTable/WordsListTable';
 import { Modal } from '../Modal/Modal';
@@ -10,14 +10,17 @@ const Vocabulary = () => {
   const [words, setWords] = useState([]);
   const [filter, setFilter] = useState('');
   const [isOpenModal, setIsOpenModal] = useState(false);
+  // console.log(words)
 
   const onToggleModal = () => {
     setIsOpenModal(prev => !prev);
   };
 
   const handleAddWord = word => {
+    // console.log(word);
     setWords(prev => [...prev, ...word]);
     onToggleModal();
+    Notiflix.Notify.success('Word added successfully!');
   };
 
   const handleFilter = e => {
@@ -40,6 +43,7 @@ const Vocabulary = () => {
         if (word.id === editedWord.id) {
           word.engWord = editedWord.engWord;
           word.ukrWord = editedWord.ukrWord;
+          Notiflix.Notify.success('Word successfully edited.');
         }
         return word;
       })
@@ -47,7 +51,19 @@ const Vocabulary = () => {
   };
 
   const handleDelete = id => {
-    setWords(prev => prev.filter(word => word.id !== id));
+    Notiflix.Confirm.show(
+    'Warning',
+    'Are you sure you want to delete this word?',
+    'Yes',
+    'No',
+    function () {
+     setWords(prev => prev.filter(word => word.id !== id));
+     Notiflix.Notify.success('The word was successfully deleted.');
+    },
+    function () {
+      Notiflix.Notify.warning('Deletion was canceled.');
+    }
+  );
   };
 
   return (
@@ -57,12 +73,12 @@ const Vocabulary = () => {
         style={{ marginBottom: '20px' }}
         onClick={onToggleModal}
       >
-        Add new word
+        Add new words
       </Btn>
 
       {isOpenModal && (
         <Modal onCloseModal={onToggleModal}>
-          <VocabularyForm onFormSubmit={handleAddWord} />
+          <AddWordForm onFormSubmit={handleAddWord} />
         </Modal>
       )}
 

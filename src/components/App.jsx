@@ -1,9 +1,16 @@
-// import Box from '@mui/material/Box';
 import styled from 'styled-components';
+import Notiflix from 'notiflix';
 
 import Vocabulary from '../components/Vocabulary/Vocabulary';
 
 const App = () => {
+
+   Notiflix.Notify.init({
+     position: 'center-center',
+     borderRadius: '8px',
+     timeout: 1000
+   });
+
   return (
     <StyledOutlet>
       <Vocabulary />

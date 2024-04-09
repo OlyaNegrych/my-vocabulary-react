@@ -48,7 +48,7 @@ export const Label = styled.span`
 
 export const Input = styled.input`
   display: block;
-  padding-left: 8px;
+  padding-left: 4px;
   font-size: ${p => p.theme.theme.fontSize.formText};
   font-family: ${p => p.theme.theme.fontFamily.mainFont};
   width: 100%;
@@ -58,6 +58,9 @@ export const Input = styled.input`
   outline: none;
 
   transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:focus {
+    border: 2px solid rgba(4, 168, 9, 0.605);
+  }
 `;
 
 export const FieldCheckbox = styled.label`
