@@ -4,7 +4,7 @@ import { Btn, BtnRemove, Input } from './Vocabulary.styled';
 
 
 const AddWordForm = ({ onFormSubmit }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [wordPairs, setWordPairs] = useState([{ id: Date.now(), engWord: '', ukrWord: '' }]);
 
   const onSubmit = () => {
@@ -44,7 +44,7 @@ const AddWordForm = ({ onFormSubmit }) => {
             onChange={(e) => handleInputChange(pair.id, 'engWord', e.target.value)}
             style={{ marginBottom: '5px' }}
           />
-          {/* {errors?.wordPairs?.[pair.id]?.engWord && <span>Enter English word, please...</span>} */}
+
           <Input
             placeholder="Ukrainian word"
             {...register(`wordPairs[${pair.id}].ukrWord`, { required: true })}
@@ -52,7 +52,7 @@ const AddWordForm = ({ onFormSubmit }) => {
             onChange={(e) => handleInputChange(pair.id, 'ukrWord', e.target.value)}
             style={{ marginBottom: '5px' }}
           />
-          {/* {errors?.wordPairs?.[pair.id]?.ukrWord && <span>Enter Ukrainian word, please...</span>} */}
+
           
         </fieldset>
       ))}
