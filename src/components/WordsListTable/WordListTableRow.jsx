@@ -1,18 +1,15 @@
-// import TableCell from '@mui/material/TableCell';
-// import TableRow from '@mui/material/TableRow';
-// import { Button, Checkbox, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Btn, CheckBox, Input } from 'components/Vocabulary/Vocabulary.styled';
 
 const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [engWord, setEngWord] = useState(word.engWord);
   const [ukrWord, setUkrWord] = useState(word.ukrWord);
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleEdit = () => {
-    setIsEdit(!isEdit);
-    if (isEdit) {
+    setIsEdited(!isEdited);
+    if (isEdited) {
       onEditWord({ ...word, engWord, ukrWord });
     }
   };
@@ -36,7 +33,7 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
         />
       </td>
       <td align="center">{index + 1}</td>
-      {isEdit ? (
+      {isEdited ? (
         <>
           <td align="center">
             <Input
@@ -64,8 +61,8 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
         </>
       )}
       <td align="center">
-        <Btn onClick={handleEdit} style={{ backgroundColor: isEdit ? '#9effa6' : '#fcff9e', marginRight: '8px', fontSize: '16px'}}>
-          {isEdit ? 'Save' : 'Edit'}
+        <Btn onClick={handleEdit} style={{ backgroundColor: isEdited ? '#9effa6' : '#fcff9e', marginRight: '8px', fontSize: '16px'}}>
+          {isEdited ? 'Save' : 'Edit'}
         </Btn>
         <Btn onClick={() => onDelete(word.id)} style={{backgroundColor: '#ff9e9e', fontSize: '16px'}}>
           Delete

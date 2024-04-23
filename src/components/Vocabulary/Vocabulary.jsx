@@ -11,14 +11,11 @@ const Vocabulary = () => {
   const initialWords = JSON.parse(localStorage.getItem('words')) || [];
   const [words, setWords] = useState(initialWords);
 
-
-  // const [words, setWords] = useState([]);
   const [filter, setFilter] = useState('');
   const [isOpenModal, setIsOpenModal] = useState(false);
-  // console.log(words)
+
 
    useEffect(() => {
-    // Оновлення локального сховища після зміни стану
     localStorage.setItem('words', JSON.stringify(words));
   }, [words]);
 
@@ -30,10 +27,14 @@ const Vocabulary = () => {
     const updatedWords = [...words, ...word];
     setWords(updatedWords);
 
-    // setWords(prev => [...prev, ...word]);
-
     onToggleModal();
     Notiflix.Notify.success('Word added successfully!');
+  };
+
+  const handleLearnWord = words => {
+
+    // onToggleModal();
+    Notiflix.Notify.info('Choose the words to learn!');
   };
 
   const handleFilter = e => {
@@ -83,10 +84,18 @@ const Vocabulary = () => {
     <>
       <Btn
         type="button"
-        style={{ marginBottom: '20px' }}
+        style={{ marginBottom: '20px', marginRight: '40px' }}
         onClick={onToggleModal}
       >
         Add new words
+      </Btn>
+
+      <Btn
+        type="button"
+        style={{ marginBottom: '20px', backgroundColor: '#0efe62' }}
+        onClick={handleLearnWord}
+      >
+        Learn words
       </Btn>
 
       {isOpenModal && (

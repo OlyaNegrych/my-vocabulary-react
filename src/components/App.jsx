@@ -8,7 +8,7 @@ const App = () => {
    Notiflix.Notify.init({
      position: 'center-center',
      borderRadius: '8px',
-     timeout: 1000
+     timeout: 1500
    });
 
   return (

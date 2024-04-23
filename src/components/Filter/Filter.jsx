@@ -8,7 +8,7 @@ const Filter = ({ value, onFilterChange }) => {
       placeholder='Find word'
       value={value}
       onChange={onFilterChange}
-      style={{ marginTop: '20px', backgroundColor: '#c7fbe1', marginBottom: '30px', backgroundColor: 'transparent', borderBottom: '1px solid black', maxWidth: '240px' }}
+      style={{ marginTop: '20px', backgroundColor: '#c6fae2', marginBottom: '30px', borderBottom: '1px solid black', maxWidth: '240px' }}
     />
   );
 };
