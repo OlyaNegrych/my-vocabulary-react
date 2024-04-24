@@ -1,7 +1,11 @@
 import WordListTableRow from './WordListTableRow';
 
 
-export default function WordListTable({ wordsList, onDelete, onEditWord }) {
+export default function WordListTable({ wordsList, learnWords, onDelete, onEditWord }) {
+
+  const setLearnWords = (ids) => {
+    learnWords(ids);
+  };
   
    return (
     <table style={{backgroundColor: '#c7fbe1', borderRadius: '4px', padding: '4px'}}>
@@ -19,6 +23,7 @@ export default function WordListTable({ wordsList, onDelete, onEditWord }) {
           <WordListTableRow
             key={word.id}
             word={word}
+            setLearnWords={setLearnWords}
             index={index}
             onDelete={onDelete}
             onEditWord={onEditWord}

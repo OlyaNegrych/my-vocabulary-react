@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Btn, CheckBox, Input } from 'components/Vocabulary/Vocabulary.styled';
 
-const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
+const WordListTableRow = ({ index, word, setLearnWords, onDelete, onEditWord }) => {
   const [isEdited, setIsEdited] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [engWord, setEngWord] = useState(word.engWord);
@@ -22,6 +22,11 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
     }
   };
 
+  const handleLearnWords = (id) => {
+    setIsChecked(!isChecked);
+    setLearnWords({[id]: !isChecked });
+  };
+
   return (
     <tr>
       <td align="center">
@@ -29,7 +34,8 @@ const WordListTableRow = ({ word, index, onDelete, onEditWord }) => {
           type="checkbox"
           id={`checkbox-${index + 1}`}
           checked={isChecked}
-          onChange={() => setIsChecked(!isChecked)}
+          onChange={() => handleLearnWords(`checkbox-${index + 1}`)}
+          // onChange={() => setIsChecked(!isChecked)}
         />
       </td>
       <td align="center">{index + 1}</td>

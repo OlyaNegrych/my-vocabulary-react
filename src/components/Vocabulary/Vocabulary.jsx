@@ -10,12 +10,14 @@ import { useState } from 'react';
 const Vocabulary = () => {
   const initialWords = JSON.parse(localStorage.getItem('words')) || [];
   const [words, setWords] = useState(initialWords);
-
   const [filter, setFilter] = useState('');
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [learnWords, setLearnWords] = useState([]);
+  
+  console.log(learnWords);
 
 
-   useEffect(() => {
+  useEffect(() => {
     localStorage.setItem('words', JSON.stringify(words));
   }, [words]);
 
@@ -57,7 +59,7 @@ const Vocabulary = () => {
         if (word.id === editedWord.id) {
           word.engWord = editedWord.engWord;
           word.ukrWord = editedWord.ukrWord;
-          Notiflix.Notify.success('Word successfully edited.');
+          Notiflix.Notify.success('Word is successfully edited.');
         }
         return word;
       })
@@ -77,8 +79,44 @@ const Vocabulary = () => {
     function () {
       Notiflix.Notify.warning('Deletion was canceled.');
     }
-  );
+   );
   };
+
+  const handleLearnWords = (id) => {
+    setLearnWords(id);
+  };
+
+//   const handleLearnWords = (id) => {
+//   setLearnWords(prevLearnWords => {
+//     const updatedWords = prevLearnWords?.map(word => {
+//       if (word.id === id) {
+//         // Якщо id вже існує, переписуємо значення
+//         return { id: id, /* ваші поля об'єкта */ };
+//       }
+//       return word;
+//     });
+//     // Якщо об'єкт з таким id не знайдено, додаємо його до стану
+//     if (!updatedWords.some(word => word.id === id)) {
+//       updatedWords.push({ id: id, /* ваші поля об'єкта */ });
+//     }
+//     return updatedWords;
+//   });
+//   };
+  
+//   const handleLearnWords = (id) => {
+//   setLearnWords(prevLearnWords => {
+//     const existingWordIndex = prevLearnWords.findIndex(word => word.id === id);
+//     if (existingWordIndex !== -1) {
+//       // Якщо id вже існує, переписуємо значення
+//       const updatedWords = [...prevLearnWords];
+//       updatedWords[existingWordIndex] = { id: id, /* ваші поля об'єкта */ };
+//       return updatedWords;
+//     } else {
+//       // Якщо об'єкт з таким id не знайдено, додаємо його до стану
+//       return [...prevLearnWords, { id: id, /* ваші поля об'єкта */ }];
+//     }
+//   });
+// };
 
   return (
     <>
@@ -108,6 +146,7 @@ const Vocabulary = () => {
 
       <WordsListTable
         wordsList={handleFilterWords()}
+        learnWords={handleLearnWords}
         onDelete={handleDelete}
         onEditWord={handleEditWords}
       />
