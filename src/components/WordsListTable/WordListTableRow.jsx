@@ -34,8 +34,7 @@ const WordListTableRow = ({ index, word, setLearnWords, onDelete, onEditWord }) 
           type="checkbox"
           id={`checkbox-${index + 1}`}
           checked={isChecked}
-          onChange={() => handleLearnWords(`checkbox-${index + 1}`)}
-          // onChange={() => setIsChecked(!isChecked)}
+          onChange={() => handleLearnWords(word.id)}
         />
       </td>
       <td align="center">{index + 1}</td>

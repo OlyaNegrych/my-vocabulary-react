@@ -1,22 +1,52 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Notiflix from 'notiflix';
 import { Btn } from './Vocabulary.styled';
 import AddWordForm from './AddWordForm';
+import LearnWords from 'components/LearnWords/LearnWords';
 import Filter from 'components/Filter/Filter';
 import WordsListTable from '../WordsListTable/WordsListTable';
 import { Modal } from '../Modal/Modal';
-import { useState } from 'react';
+
 
 const Vocabulary = () => {
   const initialWords = JSON.parse(localStorage.getItem('words')) || [];
   const [words, setWords] = useState(initialWords);
   const [filter, setFilter] = useState('');
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [learnWords, setLearnWords] = useState([]);
+  const [startLearnWords, setStartearnWords] = useState(false);
+  const [learnWordsIDS, setLearnWordsIDS] = useState({});
+  const [wordsToLearnIDS, setWordsToLearnIDS] = useState([]);
+  const [wordsToLearnFinal, setWordsToLearnFinal] = useState([]);
+  // console.log(wordsToLearnFinal);
+
+
+  useEffect(() => {
+  const updateWordsToLearn = () => {
+    const updatedWordsToLearn = [...wordsToLearnIDS];
+    Object.entries(learnWordsIDS).forEach(([key, value]) => {
+      if (value === true) {
+        const index = updatedWordsToLearn.findIndex(obj => Object.keys(obj)[0] === key);
+        if (index !== -1) {
+          // Якщо об'єкт із ключем key вже існує в масиві, оновлюємо його значення
+          updatedWordsToLearn[index][key] = value;
+        } else {
+          // Якщо об'єкт із ключем key не існує в масиві, додаємо його до wordsToLearn
+          updatedWordsToLearn.push(+key);
+        }
+      } else if (value === false) {
+        // Якщо значення ключа false, перевіряємо чи об'єкт із таким ключем вже існує в масиві та видаляємо його
+        const index = updatedWordsToLearn.findIndex(item => item === key);
+        if (index !== -1) {
+          updatedWordsToLearn.splice(index, 1);
+        }
+      }
+    });
+    setWordsToLearnIDS(updatedWordsToLearn);
+  };
+
+  updateWordsToLearn();
+  }, [learnWordsIDS]);
   
-  console.log(learnWords);
-
-
   useEffect(() => {
     localStorage.setItem('words', JSON.stringify(words));
   }, [words]);
@@ -33,10 +63,22 @@ const Vocabulary = () => {
     Notiflix.Notify.success('Word added successfully!');
   };
 
-  const handleLearnWord = words => {
+  const setLearnWord = () => {
+    //потрібно перебрати words чи вони містять обєкти де id дорівнює елементу масиву wordsToLearn
+    //якщо так, тоді треба з них сформувати новий масив і передати його в <LearnWords words={wordsToLearn} />
 
-    // onToggleModal();
-    Notiflix.Notify.info('Choose the words to learn!');
+    const setWordsToLearn = () => {
+      const filteredWords = words.filter(word => wordsToLearnIDS.includes(word.id));
+      // console.log(filteredWords);
+      setWordsToLearnFinal(filteredWords);
+    };
+
+    if (wordsToLearnIDS.length === 0) {
+      Notiflix.Notify.info('Choose the words to learn!');
+    } else {
+      setStartearnWords(true);
+      setWordsToLearn();
+    }
   };
 
   const handleFilter = e => {
@@ -83,40 +125,10 @@ const Vocabulary = () => {
   };
 
   const handleLearnWords = (id) => {
-    setLearnWords(id);
+    setLearnWordsIDS(id);
   };
 
-//   const handleLearnWords = (id) => {
-//   setLearnWords(prevLearnWords => {
-//     const updatedWords = prevLearnWords?.map(word => {
-//       if (word.id === id) {
-//         // Якщо id вже існує, переписуємо значення
-//         return { id: id, /* ваші поля об'єкта */ };
-//       }
-//       return word;
-//     });
-//     // Якщо об'єкт з таким id не знайдено, додаємо його до стану
-//     if (!updatedWords.some(word => word.id === id)) {
-//       updatedWords.push({ id: id, /* ваші поля об'єкта */ });
-//     }
-//     return updatedWords;
-//   });
-//   };
-  
-//   const handleLearnWords = (id) => {
-//   setLearnWords(prevLearnWords => {
-//     const existingWordIndex = prevLearnWords.findIndex(word => word.id === id);
-//     if (existingWordIndex !== -1) {
-//       // Якщо id вже існує, переписуємо значення
-//       const updatedWords = [...prevLearnWords];
-//       updatedWords[existingWordIndex] = { id: id, /* ваші поля об'єкта */ };
-//       return updatedWords;
-//     } else {
-//       // Якщо об'єкт з таким id не знайдено, додаємо його до стану
-//       return [...prevLearnWords, { id: id, /* ваші поля об'єкта */ }];
-//     }
-//   });
-// };
+
 
   return (
     <>
@@ -131,7 +143,7 @@ const Vocabulary = () => {
       <Btn
         type="button"
         style={{ marginBottom: '20px', backgroundColor: '#0efe62' }}
-        onClick={handleLearnWord}
+        onClick={setLearnWord}
       >
         Learn words
       </Btn>
@@ -139,6 +151,12 @@ const Vocabulary = () => {
       {isOpenModal && (
         <Modal onCloseModal={onToggleModal}>
           <AddWordForm onFormSubmit={handleAddWord} />
+        </Modal>
+      )}
+
+       {startLearnWords && !isOpenModal && (
+        <Modal onCloseModal={onToggleModal}>
+          <LearnWords words={wordsToLearnFinal} />
         </Modal>
       )}
 

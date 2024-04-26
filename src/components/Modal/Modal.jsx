@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Overlay, ModalWindow } from '../Modal/Modal.styled';
+import { BtnRemove } from '../Vocabulary/Vocabulary.styled';
+
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -26,7 +28,10 @@ export const Modal = ({ onCloseModal, children }) => {
 
   return createPortal(
     <Overlay onClick={handleCloseModal}>
-      <ModalWindow>{children}</ModalWindow>
+      <ModalWindow>
+        {children}
+        <BtnRemove type="button" onClick={handleCloseModal} style={{position: 'absolute', top: '20px', right: '10px'}}>X</BtnRemove>
+      </ModalWindow>
     </Overlay>,
     modalRoot
   );
